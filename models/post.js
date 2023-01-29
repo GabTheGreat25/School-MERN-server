@@ -1,58 +1,46 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 const postSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
 
-    {
-        title: {
+      trim: true,
 
-            type: String,
+      min: 3,
 
-            trim: true,
+      max: 160,
 
-            min: 3,
-
-            max: 160,
-
-            required: true
-
-        },
-
-        slug: {
-
-            type: String,
-
-            unique: true,
-
-            index: true,
-
-            lowercase: true
-
-        },
-
-        content: {
-
-            type: {},
-
-            required: true,
-
-            min: 20,
-
-            max: 2000000
-
-        },
-
-        user: {
-
-            type: String,
-
-            default: 'Admin'
-
-        }
-
+      required: true,
     },
 
-    { timestamps: true }
+    slug: {
+      type: String,
 
+      unique: true,
+
+      index: true,
+
+      lowercase: true,
+    },
+
+    content: {
+      type: {},
+
+      required: true,
+
+      min: 20,
+
+      max: 2000000,
+    },
+
+    user: {
+      type: String,
+
+      default: "Admin",
+    },
+  },
+
+  { timestamps: true }
 );
-module.exports = mongoose.model('Post', postSchema);
-
+module.exports = mongoose.model("Post", postSchema);
