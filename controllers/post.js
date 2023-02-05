@@ -2,11 +2,12 @@ const Post = require("../models/post");
 const slugify = require("slugify");
 
 exports.create = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { title, content, user } = req.body;
   const slug = slugify(title);
 
   // validate
+
   switch (true) {
     case !title:
       return res.status(400).json({ error: "Title is required" });
@@ -18,6 +19,7 @@ exports.create = (req, res) => {
   }
 
   // create post
+
   Post.create({ title, content, user, slug }, (err, post) => {
     if (err) {
       console.log(err);
@@ -36,4 +38,37 @@ exports.list = (req, res) => {
       if (err) console.log(err);
       res.json(posts);
     });
+};
+
+exports.read = (req, res) => {
+  // console.log(req.pramas.slug)
+  const { slug } = req.params;
+  Post.findOne({ slug }).exec((err, post) => {
+    if (err) console.log(err);
+    res.json(post);
+  });
+};
+
+//UPDATE METHOD
+exports.update = (req, res) => {
+  const { slug } = req.params;
+  const { title, content, user } = req.body;
+  Post.findOneAndUpdate({ slug }, { title, content, user }, { new: true }).exec(
+    (err, post) => {
+      if (err) console.log(err);
+      res.json(post);
+    }
+  );
+};
+
+//REMOVE METHOD
+exports.remove = (req, res) => {
+  // console.log(req.pramas.slug)
+  const { slug } = req.params;
+  Post.findOneAndRemove({ slug }).exec((err, post) => {
+    if (err) console.log(err);
+    res.json({
+      message: "Post deleted",
+    });
+  });
 };
